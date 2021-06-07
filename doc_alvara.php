@@ -39,6 +39,19 @@ $alvara_id = $_GET['alvara_id'];
             margin-right: 60px;
             margin-top: 10px;
         }
+        .table ,i {
+            margin: 10px;
+        }
+        .btns, button{
+        border:none;
+        background-color: #fff;
+  
+
+        }
+        .btns ul li{
+            display: inline-block;
+
+        }
     </style>
 </head>
 
@@ -446,7 +459,7 @@ aria-labelledby="userDropdown">
 
                 </div>
                 <div class="modal-footer">
-                   <input type="submit" name="enviar" value="Cadastrar">
+                   <input type="Submit" name="Submit" value="Cadastrar">
                </div>
            </form>
            </div>
@@ -496,17 +509,34 @@ aria-labelledby="userDropdown">
                         </tr>
                     </thead>
                     <?php 
-                    $sql = "SELECT arquivo FROM anexo_alvara WHERE categoria = 1 and alvara_id = '".$alvara_id."' ";
+                    $sql = "SELECT arquivo, id FROM anexo_alvara WHERE categoria = 1 and alvara_id = '".$alvara_id."' ";
                     $result = mysqli_query($con, $sql);
                     echo mysqli_error($con);
                     if(mysqli_num_rows($result)==0){
                     }else{
-                        while(list($arquivo ) = mysqli_fetch_array($result)){ 
+                        while(list($arquivo, $id ) = mysqli_fetch_array($result)){ 
                             ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $arquivo; ?></td>
-                                    <td><a href="upload\<?php echo $arquivo; ?>" download>Download</a></td>
+                                    <td>
+                                        <div class="btns">
+                                            <ul>
+                                                <li>
+                                                    <a href="upload\<?php echo $arquivo; ?>" download><i class="fas fa-download"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="visualizar.php?id=<?php echo $id; ?> " target="_blank"><i class="fas fa-eye"></i></a>
+                                                </li>
+                                                <li>
+                                                    <form method="POST" action="cadAnexo.php?id=<?php echo $id; ?>&tipo=1&alvara_id=<?php echo $alvara_id; ?>">
+                                                        <button type="Submit" name="Submit" value="Excluir"><i class="far fa-trash-alt"></i>
+                                                        </button>                                           
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         <?php }} ?>
@@ -521,17 +551,34 @@ aria-labelledby="userDropdown">
                         </tr>
                     </thead>
                     <?php 
-                    $sql = "SELECT arquivo FROM anexo_alvara WHERE categoria = 2 and alvara_id = '".$alvara_id."' ";
+                    $sql = "SELECT arquivo, id FROM anexo_alvara WHERE categoria = 2 and alvara_id = '".$alvara_id."' ";
                     $result = mysqli_query($con, $sql);
                     echo mysqli_error($con);
                     if(mysqli_num_rows($result)==0){
                     }else{
-                        while(list($arquivo ) = mysqli_fetch_array($result)){ 
+                        while(list($arquivo, $id ) = mysqli_fetch_array($result)){ 
                             ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $arquivo; ?></td>
-                                    <td><a href="upload\<?php echo $arquivo; ?>" download>Download</a></td>
+                                    <td>
+                                        <div class="btns">
+                                            <ul>
+                                                <li>
+                                                    <a href="upload\<?php echo $arquivo; ?>" download><i class="fas fa-download"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="visualizar.php?id=<?php echo $id; ?> " target="_blank"><i class="fas fa-eye"></i></a>
+                                                </li>
+                                                <li>
+                                                    <form method="POST" action="cadAnexo.php?id=<?php echo $id; ?>&tipo=1&alvara_id=<?php echo $alvara_id; ?>">
+                                                        <button type="Submit" name="Submit" value="Excluir"><i class="far fa-trash-alt"></i>
+                                                        </button>                                           
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         <?php }} ?>
@@ -546,17 +593,34 @@ aria-labelledby="userDropdown">
                         </tr>
                     </thead>
                     <?php 
-                    $sql = "SELECT arquivo FROM anexo_alvara WHERE categoria = 3 and alvara_id = '".$alvara_id."' ";
+                    $sql = "SELECT arquivo, id FROM anexo_alvara WHERE categoria = 3 and alvara_id = '".$alvara_id."' ";
                     $result = mysqli_query($con, $sql);
                     echo mysqli_error($con);
                     if(mysqli_num_rows($result)==0){
                     }else{
-                        while(list($arquivo ) = mysqli_fetch_array($result)){ 
+                        while(list($arquivo, $id ) = mysqli_fetch_array($result)){ 
                             ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $arquivo; ?></td>
-                                    <td><a href="upload\<?php echo $arquivo; ?>" download>Download</a></td>
+                                    <td>
+                                        <div class="btns">
+                                            <ul>
+                                                <li>
+                                                    <a href="upload\<?php echo $arquivo; ?>" download><i class="fas fa-download"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="visualizar.php?id=<?php echo $id; ?> " target="_blank"><i class="fas fa-eye"></i></a>
+                                                </li>
+                                                <li>
+                                                    <form method="POST" action="cadAnexo.php?id=<?php echo $id; ?>&tipo=1&alvara_id=<?php echo $alvara_id; ?>">
+                                                        <button type="Submit" name="Submit" value="Excluir"><i class="far fa-trash-alt"></i>
+                                                        </button>                                           
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         <?php }} ?>
@@ -571,17 +635,34 @@ aria-labelledby="userDropdown">
                         </tr>
                     </thead>
                     <?php 
-                    $sql = "SELECT arquivo FROM anexo_alvara WHERE categoria = 4 and alvara_id = '".$alvara_id."' ";
+                    $sql = "SELECT arquivo, id FROM anexo_alvara WHERE categoria = 4 and alvara_id = '".$alvara_id."' ";
                     $result = mysqli_query($con, $sql);
                     echo mysqli_error($con);
                     if(mysqli_num_rows($result)==0){
                     }else{
-                        while(list($arquivo ) = mysqli_fetch_array($result)){ 
+                        while(list($arquivo, $id ) = mysqli_fetch_array($result)){ 
                             ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $arquivo; ?></td>
-                                    <td><a href="upload\<?php echo $arquivo; ?>" download>Download</a></td>
+                                    <td>
+                                        <div class="btns">
+                                            <ul>
+                                                <li>
+                                                    <a href="upload\<?php echo $arquivo; ?>" download><i class="fas fa-download"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="visualizar.php?id=<?php echo $id; ?> " target="_blank"><i class="fas fa-eye"></i></a>
+                                                </li>
+                                                <li>
+                                                    <form method="POST" action="cadAnexo.php?id=<?php echo $id; ?>&tipo=1&alvara_id=<?php echo $alvara_id; ?>">
+                                                        <button type="Submit" name="Submit" value="Excluir"><i class="far fa-trash-alt"></i>
+                                                        </button>                                           
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         <?php }} ?>
@@ -596,17 +677,34 @@ aria-labelledby="userDropdown">
                         </tr>
                     </thead>
                     <?php 
-                    $sql = "SELECT arquivo FROM anexo_alvara WHERE categoria = 5 and alvara_id = '".$alvara_id."' ";
+                    $sql = "SELECT arquivo, id FROM anexo_alvara WHERE categoria = 5 and alvara_id = '".$alvara_id."' ";
                     $result = mysqli_query($con, $sql);
                     echo mysqli_error($con);
                     if(mysqli_num_rows($result)==0){
                     }else{
-                        while(list($arquivo ) = mysqli_fetch_array($result)){ 
+                        while(list($arquivo, $id ) = mysqli_fetch_array($result)){ 
                             ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $arquivo; ?></td>
-                                    <td><a href="upload\<?php echo $arquivo; ?>" download>Download</a></td>
+                                    <td>
+                                        <div class="btns">
+                                            <ul>
+                                                <li>
+                                                    <a href="upload\<?php echo $arquivo; ?>" download><i class="fas fa-download"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="visualizar.php?id=<?php echo $id; ?> " target="_blank"><i class="fas fa-eye"></i></a>
+                                                </li>
+                                                <li>
+                                                    <form method="POST" action="cadAnexo.php?id=<?php echo $id; ?>&tipo=1&alvara_id=<?php echo $alvara_id; ?>">
+                                                        <button type="Submit" name="Submit" value="Excluir"><i class="far fa-trash-alt"></i>
+                                                        </button>                                           
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         <?php }} ?>
@@ -621,17 +719,34 @@ aria-labelledby="userDropdown">
                         </tr>
                     </thead>
                     <?php 
-                    $sql = "SELECT arquivo FROM anexo_alvara WHERE categoria = 6 and alvara_id = '".$alvara_id."' ";
+                    $sql = "SELECT arquivo, id FROM anexo_alvara WHERE categoria = 6 and alvara_id = '".$alvara_id."' ";
                     $result = mysqli_query($con, $sql);
                     echo mysqli_error($con);
                     if(mysqli_num_rows($result)==0){
                     }else{
-                        while(list($arquivo ) = mysqli_fetch_array($result)){ 
+                        while(list($arquivo, $id ) = mysqli_fetch_array($result)){ 
                             ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $arquivo; ?></td>
-                                    <td><a href="upload\<?php echo $arquivo; ?>" download>Download</a></td>
+                                    <td>
+                                        <div class="btns">
+                                            <ul>
+                                                <li>
+                                                    <a href="upload\<?php echo $arquivo; ?>" download><i class="fas fa-download"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="visualizar.php?id=<?php echo $id; ?> " target="_blank"><i class="fas fa-eye"></i></a>
+                                                </li>
+                                                <li>
+                                                    <form method="POST" action="cadAnexo.php?id=<?php echo $id; ?>&tipo=1&alvara_id=<?php echo $alvara_id; ?>">
+                                                        <button type="Submit" name="Submit" value="Excluir"><i class="far fa-trash-alt"></i>
+                                                        </button>                                           
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         <?php }} ?>
@@ -646,17 +761,34 @@ aria-labelledby="userDropdown">
                         </tr>
                     </thead>
                     <?php 
-                    $sql = "SELECT arquivo FROM anexo_alvara WHERE categoria = 7 and alvara_id = '".$alvara_id."' ";
+                    $sql = "SELECT arquivo, id FROM anexo_alvara WHERE categoria = 7 and alvara_id = '".$alvara_id."' ";
                     $result = mysqli_query($con, $sql);
                     echo mysqli_error($con);
                     if(mysqli_num_rows($result)==0){
                     }else{
-                        while(list($arquivo ) = mysqli_fetch_array($result)){ 
+                        while(list($arquivo, $id ) = mysqli_fetch_array($result)){ 
                             ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $arquivo; ?></td>
-                                    <td><a href="upload\<?php echo $arquivo; ?>" download>Download</a></td>
+                                    <td>
+                                        <div class="btns">
+                                            <ul>
+                                                <li>
+                                                    <a href="upload\<?php echo $arquivo; ?>" download><i class="fas fa-download"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="visualizar.php?id=<?php echo $id; ?> " target="_blank"><i class="fas fa-eye"></i></a>
+                                                </li>
+                                                <li>
+                                                    <form method="POST" action="cadAnexo.php?id=<?php echo $id; ?>&tipo=1&alvara_id=<?php echo $alvara_id; ?>">
+                                                        <button type="Submit" name="Submit" value="Excluir"><i class="far fa-trash-alt"></i>
+                                                        </button>                                           
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         <?php }} ?>
@@ -671,17 +803,34 @@ aria-labelledby="userDropdown">
                         </tr>
                     </thead>
                     <?php 
-                    $sql = "SELECT arquivo FROM anexo_alvara WHERE categoria = 8 and alvara_id = '".$alvara_id."' ";
+                    $sql = "SELECT arquivo, id FROM anexo_alvara WHERE categoria = 8 and alvara_id = '".$alvara_id."' ";
                     $result = mysqli_query($con, $sql);
                     echo mysqli_error($con);
                     if(mysqli_num_rows($result)==0){
                     }else{
-                        while(list($arquivo ) = mysqli_fetch_array($result)){ 
+                        while(list($arquivo, $id ) = mysqli_fetch_array($result)){ 
                             ?>
                             <tbody>
                                 <tr>
                                     <td><?php echo $arquivo; ?></td>
-                                    <td><a href="upload\<?php echo $arquivo; ?>" download>Download</a></td>
+                                    <td>
+                                        <div class="btns">
+                                            <ul>
+                                                <li>
+                                                    <a href="upload\<?php echo $arquivo; ?>" download><i class="fas fa-download"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="visualizar.php?id=<?php echo $id; ?> " target="_blank"><i class="fas fa-eye"></i></a>
+                                                </li>
+                                                <li>
+                                                    <form method="POST" action="cadAnexo.php?id=<?php echo $id; ?>&tipo=1&alvara_id=<?php echo $alvara_id; ?>">
+                                                        <button type="Submit" name="Submit" value="Excluir"><i class="far fa-trash-alt"></i>
+                                                        </button>                                           
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         <?php }} ?>
@@ -700,7 +849,7 @@ aria-labelledby="userDropdown">
 <!-- End of Main Content -->
 
 
-<button type="button" class="btn btn-outline-primary float-right" id="btnVoltar" onClick="history.go(-1)">Voltar</button>
+<a href="alvara.php" type="button" class="btn btn-outline-primary float-right" id="btnVoltar">Voltar</a>
 <!-- Footer -->
 <footer class="sticky-footer bg-white">
     <div class="container my-auto">

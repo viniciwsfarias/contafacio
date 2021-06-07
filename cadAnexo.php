@@ -6,32 +6,49 @@
  echo $tipo;
  if($tipo == 1){ // alvara
     echo "entrou alvara";
-    $alvara_id = $_GET['alvara_id'];
-    $x = "?alvara_id=".$alvara_id;
-    if(isset($_FILES['arquivo'])){
-        echo "ok";
-        $ext = strtolower(substr($_FILES['arquivo']['name'], -4));
-        $nome = $_POST['nome'];
-        $new_name = $nome.$ext;
-        $diretorio = "upload/";
-        $categoria = $_POST['categoria'];
+    if(isset($_POST['Submit'])){
+        $acao = $_POST['Submit'];
 
-        move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$new_name);
+    }else{
 
-        $sql ="INSERT INTO anexo_alvara (`nome`, `alvara_id`, `arquivo`, `categoria`) VALUES ('$nome', '$alvara_id', '$new_name', '$categoria' ) ";
-        $result = mysqli_query($con, $sql);
-        echo mysqli_error($con);
-        if($result){
-            echo "deu certo";
-            ob_start();
-            header("Location: doc_alvara.php".$x);
-
-        }else{
-            echo "nao deu certo";
-        }
     }
-    else{
-        echo "nao ok";
+    if($acao == "Cadastrar"){
+        $alvara_id = $_GET['alvara_id'];
+        $x = "?alvara_id=".$alvara_id;
+        if(isset($_FILES['arquivo'])){
+            echo "ok";
+            $ext = strtolower(substr($_FILES['arquivo']['name'], -4));
+            $nome = $_POST['nome'];
+            $new_name = $nome.$ext;
+            $diretorio = "upload/";
+            $categoria = $_POST['categoria'];
+
+            move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$new_name);
+
+            $sql ="INSERT INTO anexo_alvara (`nome`, `alvara_id`, `arquivo`, `categoria`) VALUES ('$nome', '$alvara_id', '$new_name', '$categoria' ) ";
+            $result = mysqli_query($con, $sql);
+            echo mysqli_error($con);
+            if($result){
+                echo "deu certo";
+                ob_start();
+                header("Location: doc_alvara.php".$x);
+
+            }else{
+                echo "nao deu certo";
+            }
+        }
+        else{
+            echo "nao ok";
+        }
+    }else if($acao== "Excluir"){
+        $id = $_GET['id'];
+        $alvara_id = $_GET['alvara_id'];
+        $x = "?alvara_id=".$alvara_id;
+        $sql = "delete from `anexo_alvara` WHERE id = '".$id."' ";
+        $result = mysqli_query($con, $sql)  or die ("executar update".mysqli_error());
+        $acao = "Cadastrar";
+        ob_start();
+        header("Location: doc_alvara.php".$x);
     }
 
 }else
@@ -56,7 +73,7 @@ if($tipo == 2){ //bombeiros
         if($result){
             echo "deu certo";
             ob_start();
-        header("Location: doc_bombeiro.php".$x);
+            header("Location: doc_bombeiro.php".$x);
 
         }else{
             echo "nao deu certo";
@@ -88,7 +105,7 @@ if($tipo == 3){ //vigilancia
         if($result){
             echo "deu certo";
             ob_start();
-        header("Location: doc_vigilancia.php".$x);
+            header("Location: doc_vigilancia.php".$x);
 
         }else{
             echo "nao deu certo";

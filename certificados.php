@@ -19,6 +19,13 @@ function expirar($days){
     return $dias;
 
 }
+ if(isset($_POST['pesquisar'])){
+$pesquisar = $_POST['pesquisar'];
+$tipo = $_POST['tipo'];
+}else{
+    $pesquisar = "";
+    $tipo = "certificados";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -449,6 +456,27 @@ aria-labelledby="userDropdown">
                 <div class="tab-content" id="myTabContent">
                     <!-- inicio card alvara -->
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"> 
+                        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search float-left" method="POST" action="certificados.php">
+                            <div class="input-group">
+                                <div class="input-group">
+                                    <label>Pesquisar por:</label>
+                                    <select class="selectpicker" data-style="btn-warning" name="tipo">
+                                        <option value="certificados">Empresas</option>
+                                        <option value="cnpj">CNPJ</option>
+                                        <option value="status">Status</option>
+                                        <option value="responsavel">Responsável</option>
+                                        <option value="email">E-mail</option>
+                                    </select>
+                                    <input type="text" name="pesquisar" id="pesquisar" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                    aria-label="Search" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit" name="Submit">
+                                            <i class="fas fa-search fa-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                         <button type="button" class="btn btn-primary  float-right" id="btnNovo" data-toggle="modal" data-target="#cadAlvaraModal">Novo</button>
                         <table class="table table-bordered table-responsive" width="100%">
                             <thead class="table-dark">
@@ -461,7 +489,7 @@ aria-labelledby="userDropdown">
                                 </tr>
                             </thead>
                             <?php
-                            $sql = "SELECT id, certificados, cnpj, email, vencimento, situacao, telefone, responsavel, observacao, status, arquivo  FROM certificados";
+                            $sql = "SELECT id, certificados, cnpj, email, vencimento, situacao, telefone, responsavel, observacao, status, arquivo  FROM certificados WHERE $tipo LIKE '%$pesquisar%' LIMIT 5000";
                             $result = mysqli_query($con, $sql);
                             echo mysqli_error($con);
 
@@ -534,7 +562,7 @@ aria-labelledby="userDropdown">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel"><?php echo $empresa; ?></h5>
+                                                <h5 class="modal-title" id="exampleModalLabel"><?php echo $certificados; ?></h5>
                                                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">×</span>
                                                 </button>
@@ -629,8 +657,8 @@ aria-labelledby="userDropdown">
                         <input type="text" name="id" class="form-control" id="recipientid">
                     </div>
                     <div class="form-group">
-                        <label for="recipientCertificados" class="control-label">Certificados:</label>
-                        <input type="text" name="empresa" class="form-control" id="recipientCertificados">
+                        <label for="recipient-certificados" class="control-label">Certificados:</label>
+                        <input type="text" name="certificados" class="form-control" id="recipient-certificados">
                     </div>
                     <div class="form-group">
                         <label for="recipient-vencimento" class="control-label">Vencimento:</label>
@@ -682,8 +710,8 @@ aria-labelledby="userDropdown">
     <div class="modal-body">
         <form  class="form-horizontal" method="POST" action="cadastrar_certificados.php" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="recipientCertificados" class="control-label">Empresa:</label>
-                <input type="text" name="certificados" class="form-control" id="recipientCertificados">
+                <label for="recipient-certificados" class="control-label">Empresa:</label>
+                <input type="text" name="certificados" class="form-control" id="recipient-certificados">
             </div>
             <div class="form-group">
                 <label for="recipient-vencimento" class="control-label">Vencimento:</label>
@@ -744,7 +772,7 @@ aria-hidden="true">
         <div class="modal-body">Você realmente deseja sair ?</div>
         <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-            <a class="btn btn-primary" href="index.php">Sim</a>
+            <a class="btn btn-primary" href="logout.php">Sim</a>
         </div>
     </div>
 </div>
@@ -804,7 +832,7 @@ aria-hidden="true">
 
    var modal = $(this)
    //modal.find('.modal-title').text('New message to ' + recipient)
-   modal.find('#recipientCertificados').val(recipient)
+   modal.find('#recipient-certificados').val(recipient)
    modal.find('#recipientid').val(recipientid)
    modal.find('#recipient-vencimento').val(recipientvencimento)
    modal.find('#recipient-cnpj').val(recipientcnpj)

@@ -101,41 +101,40 @@ $tipo = $_POST['tipo'];
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Setor Pessoal</span></a>
+                <a class="nav-link" href="#">
+                    <i class="fas fa-scroll"></i>
+                    <span>Setor Pessoal</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                    <i class="fas fa-book-open"></i>
                     <span>Setor Contábil</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Setor Fisco-Contábil</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-fw fa-chart-area"></i>
-                            <span>Setor Fiscal</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-fw fa-chart-area"></i>
-                                <span>Diretotia</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="legalizacao.php">
-                                    <i class="fas fa-fw fa-chart-area"></i>
-                                    <span>Legalização</span></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <i class="fas fa-fw fa-chart-area"></i>
-                                        <span>T.I</span></a>
-                                    </li>
-
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-file-signature"></i>
+                    <span>Setor Fisco-Contábil</span></a>
+            </li>
+           <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-stamp"></i>
+                    <span>Setor Fiscal</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Diretotia</span></a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link" href="legalizacao.php">
+                    <i class="fas fa-certificate"></i>
+                    <span>Legalização</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="ti.php">
+                    <i class="fas fa-tv"></i>
+                    <span>T.I</span></a>
+            </li>
                                     <!-- Nav Item - Utilities Collapse Menu -->
                                     <li class="nav-item">
                                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
@@ -1164,7 +1163,7 @@ aria-hidden="true">
         <div class="modal-body">Você realmente deseja sair ?</div>
         <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-            <a class="btn btn-primary" href="index.php">Sim</a>
+            <a class="btn btn-primary" href="logout.php">Sim</a>
         </div>
     </div>
 </div>

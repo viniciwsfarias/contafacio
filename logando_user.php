@@ -62,7 +62,8 @@ if($total)
 {	
     $dados = @mysqli_fetch_array($result);
     if(!strcmp($senha, $dados["password"]))
-    {   
+    { 
+    $_SESSION["id"] = $dados["id"];  
     $_SESSION["nome"] = stripslashes($dados["nome"]);
     $_SESSION["username"] = $dados["username"];
     $_SESSION["email"] = $dados["email"];
