@@ -26,6 +26,32 @@ $tipo = $_POST['tipo'];
     $pesquisar = "";
     $tipo = "certificados";
 }
+function update($situacao, $id){
+    require "adm/conecta.php";
+    $sit = $situacao;
+    $cod = $id;
+
+    if($situacao > 0 && $situacao < 10){
+       $sql = "UPDATE `certificados` SET `situacao` = '1' WHERE id = '".$cod."' ";
+       $result = mysqli_query($con, $sql);
+        echo mysqli_error($con); 
+    }else
+    if($situacao <= 0){
+        $sql = "UPDATE `certificados` SET `situacao` = '2' WHERE id = '".$cod."' ";
+       $result = mysqli_query($con, $sql);
+        echo mysqli_error($con);
+    }else
+    if($situacao > 10){
+        $sql = "UPDATE `certificados` SET `situacao` = '0' WHERE id = '".$cod."' ";
+       $result = mysqli_query($con, $sql);
+        echo mysqli_error($con);
+    
+     }
+    
+                                             
+                                         
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -130,7 +156,7 @@ $tipo = $_POST['tipo'];
                                     <span>Legalização</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="ti.php">
                                         <i class="fas fa-fw fa-chart-area"></i>
                                         <span>T.I</span></a>
                                     </li>
@@ -459,20 +485,15 @@ aria-labelledby="userDropdown">
                         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search float-left" method="POST" action="certificados.php">
                             <div class="input-group">
                                 <div class="input-group">
-                                    <label>Pesquisar por:</label>
-                                    <select class="selectpicker" data-style="btn-warning" name="tipo">
-                                        <option value="certificados">Empresas</option>
-                                        <option value="cnpj">CNPJ</option>
-                                        <option value="status">Status</option>
-                                        <option value="responsavel">Responsável</option>
-                                        <option value="email">E-mail</option>
-                                    </select>
-                                    <input type="text" name="pesquisar" id="pesquisar" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                    
+                                    <input type="text" name="pesquisar" id="pesquisar" class="form-control bg-light border-0 small" placeholder="Pesquisar por..."
                                     aria-label="Search" aria-describedby="basic-addon2">
                                     <div class="input-group-append">
                                         <button class="btn btn-primary" type="submit" name="Submit">
                                             <i class="fas fa-search fa-sm"></i>
                                         </button>
+                                        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+                                        <script type="text/javascript" src="js/personalizado.js"></script>
                                     </div>
                                 </div>
                             </div>
@@ -489,14 +510,15 @@ aria-labelledby="userDropdown">
                                 </tr>
                             </thead>
                             <?php
-                            $sql = "SELECT id, certificados, cnpj, email, vencimento, situacao, telefone, responsavel, observacao, status, arquivo  FROM certificados WHERE $tipo LIKE '%$pesquisar%' LIMIT 5000";
+                            $cert = filter_input(INPUT_POST, 'palavra', FILTER_SANITIZE_STRING);
+                            $sql = "SELECT id, certificados, cnpj, email, CAST(vencimento as date), senha, situacao, telefone, responsavel, observacao, status, arquivo  FROM certificados WHERE certificados LIKE '%$cert%' LIMIT 5000";
                             $result = mysqli_query($con, $sql);
                             echo mysqli_error($con);
 
                             if(mysqli_num_rows($result)==0){
 
                             }else{
-                              while(list($id, $certificados, $cnpj, $email, $vencimento, $situacao, $telefone, $responsavel, $observacao, $status, $arquivo ) = mysqli_fetch_array($result)){ 
+                              while(list($id, $certificados, $cnpj, $email, $vencimento, $senha, $situacao, $telefone, $responsavel, $observacao, $status, $arquivo ) = mysqli_fetch_array($result)){ 
 
                                 ?>
 
@@ -504,7 +526,7 @@ aria-labelledby="userDropdown">
                                 <tbody>
                                     <tr>
 
-                                        <td><?php echo $certificados; ?></td>
+                                        <td class="resultado"><?php echo $certificados; ?></td>
                                         <td><?php echo $cnpj; ?></td>
                                         <td>
                                             <?php 
@@ -515,14 +537,17 @@ aria-labelledby="userDropdown">
                                             }else
                                             if($situacao > 0 && $situacao < 10){
                                              $msg = "<font color='gold'>".$situacao." dias para vencer.</font>";
+                                             update($situacao, $id);
                                          }else
                                          if($situacao <= 0){
                                              $msg = " <font color='red'>Certificado vencido!</font>";
+                                             update($situacao, $id);
                                          }else
                                          if($situacao > 10){
                                              $msg = "<font color='green'>".$situacao." dias para vencer.</font>";
+                                            update($situacao, $id); 
                                          }
-                                         echo $msg;
+                                         echo $msg; 
 
                                          ?>                                                         
                                      </td>
@@ -536,7 +561,8 @@ aria-labelledby="userDropdown">
                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" data-whatever="<?php echo $certificados; ?>"
                                                        data-whateverid="<?php echo $id; ?>" 
                                                        data-whatevercnpj="<?php echo $cnpj; ?>" 
-                                                       data-whatevervencimento="<?php echo $vencimento; ?>"  
+                                                       data-whatevervencimento="<?php echo $vencimento; ?>"
+                                                       data-whateversenha="<?php echo $senha; ?>" 
                                                        data-whateveremail="<?php echo $email; ?>"
                                                        data-whatevertelefone="<?php echo $telefone; ?>"
                                                        data-whateverresponsavel="<?php echo $responsavel; ?>"
@@ -576,6 +602,8 @@ aria-labelledby="userDropdown">
                                               <br>
                                               Vencimento: <?php echo $vencimento; ?>
                                               <br>
+                                              Senha: <?php echo $senha; ?>
+                                              <br>
                                               Situacao: <?php echo $situacao.' dias para vencer'; ?> 
                                               <br>
                                               Status: <?php echo $status; ?>
@@ -597,7 +625,6 @@ aria-labelledby="userDropdown">
 
                                           </div>
                                           <div class="modal-footer">
-                                             <a class="btn btn-primary" href="doc_alvara.php?alvara_id=<?php echo $id; ?>" role="button">Domumentos</a>
                                              <button class="btn btn-secondary" type="button" data-dismiss="modal">Sair</button>
                                          </div>
                                         </div>
@@ -665,6 +692,10 @@ aria-labelledby="userDropdown">
                         <input type="text" name="vencimento" class="form-control" id="recipient-vencimento" >
                     </div>
                     <div class="form-group">
+                        <label for="recipient-senha" class="control-label">Senha:</label>
+                        <input type="text" name="senha" class="form-control" id="recipient-senha" >
+                    </div>
+                    <div class="form-group">
                         <label for="recipient-cnpj" class="control-label">CNPJ:</label>
                         <input type="text" name="cnpj" class="form-control" id="recipient-cnpj">
                     </div>
@@ -716,6 +747,10 @@ aria-labelledby="userDropdown">
             <div class="form-group">
                 <label for="recipient-vencimento" class="control-label">Vencimento:</label>
                 <input type="Date" name="vencimento" class="form-control" id="recipient-vencimento">
+            </div>
+            <div class="form-group">
+                <label for="recipient-senha" class="control-label">Senha:</label>
+                <input type="text" name="senha" class="form-control" id="recipient-senha">
             </div>
             <div class="form-group">
                 <label for="recipient-cnpj" class="control-label">CNPJ:</label>
@@ -821,6 +856,7 @@ aria-hidden="true">
    var recipient = button.data('whatever')// Extract info from data-* attributes
    var recipientid = button.data('whateverid')
    var recipientvencimento = button.data('whatevervencimento')
+   var recipientsenha = button.data('whateversenha')
    var recipientcnpj = button.data('whatevercnpj')
    var recipientemail = button.data('whateveremail')
    var recipienttelefone = button.data('whatevertelefone')
@@ -835,6 +871,7 @@ aria-hidden="true">
    modal.find('#recipient-certificados').val(recipient)
    modal.find('#recipientid').val(recipientid)
    modal.find('#recipient-vencimento').val(recipientvencimento)
+   modal.find('#recipient-senha').val(recipientsenha)
    modal.find('#recipient-cnpj').val(recipientcnpj)
    modal.find('#recipient-email').val(recipientemail)
    modal.find('#recipient-telefone').val(recipienttelefone)

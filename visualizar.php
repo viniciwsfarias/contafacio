@@ -1,20 +1,12 @@
-<?php
-require "adm/conecta.php";
-
-$get_file = $_GET['id'];
-echo $get_file;
-
-$sql = "SELECT arquivo FROM anexo_alvara WHERE id = '".$get_file."' ";
-$result = mysqli_query($con, $sql);
-echo mysqli_error($con);
- while(list($arquivo ) = mysqli_fetch_array($result)){ 
-
-$file = 'upload/'.$arquivo;
-}
-
-header('Content-type: application/pdf');
-
-
-@readfile($file);
-
-?>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  </head>
+  <body>
+    <div id="teste">
+        <input type="text" name="azul" value="4">
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script type="text/javascript" src="graficos.js"></script>
+</div>
+  </body>
+</html>

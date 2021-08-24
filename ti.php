@@ -416,16 +416,16 @@ $nome = $_SESSION['username'];
                         </div>
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <a class="nav-link" href="certificados.php">
+                            <a class="nav-link" href="manutencao.php">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Certificados Digitais</div>
+                                                Manutenção Computadores</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <i class="fas fa-tools fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -435,8 +435,37 @@ $nome = $_SESSION['username'];
 
                 </div>
                 <!-- /.container-fluid -->
+<!-- Project Card Example -->
+                            
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Manutenção</h6>
+                                </div>
+                                <div class="card-body">
+                                    <?php
+                            $sql = "SELECT id, computador, usuario, data, problema, manutencao, obs, status  FROM manutencao";
+                            $result = mysqli_query($con, $sql);
+                            echo mysqli_error($con);
 
-            </div>
+                            if(mysqli_num_rows($result)==0){
+
+                            }else{
+                              while(list($id, $computador, $usuario, $data, $problema, $manutencao, $obs, $status ) = mysqli_fetch_array($result)){ 
+
+                                ?>
+                                    <h4 class="small font-weight-bold"><?php echo $computador; ?> <span
+                                            class="float-right"><?php echo $status; ?>%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $status; ?>%"
+                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <?php }} ?>
+                                </div>
+
+                            </div>
+
+
+                                    </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->

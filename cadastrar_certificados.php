@@ -28,6 +28,7 @@ echo $acao;
 }else{
 			$certificados = "";
 			$vencimento = "";
+			$senha = "";
 			$cnpj = "";
 			$status = "";
 			$protocolo = "";
@@ -43,7 +44,7 @@ if(isset($acao)){
 	 if($acao== "Salvar"){
 		$certificados = $_POST['certificados'];
 		$vencimento = $_POST['vencimento'];
-		//$prazo = $_POST['prazo'];
+		$senha = $_POST['senha'];
 		//$status = $_POST['status'];
 		$cnpj = $_POST['cnpj'];
 		//$situacao = $_POST['situacao'];
@@ -54,7 +55,7 @@ if(isset($acao)){
 		$observacao = $_POST['observacao'];
 		$status = $_POST['status'];
 		$id = $_POST['id'];
-		$sql = "Update `certificados` SET `certificados` = '$certificados', `vencimento` = '$vencimento', `cnpj` = '$cnpj', `email` = '$email', `telefone` = '$telefone', `responsavel` = '$responsavel', `observacao` = '$observacao', `status` = '$status' WHERE id = '".$id."' ";
+		$sql = "Update `certificados` SET `certificados` = '$certificados', `vencimento` = '$vencimento', `senha` = '$senha', `cnpj` = '$cnpj', `email` = '$email', `telefone` = '$telefone', `responsavel` = '$responsavel', `observacao` = '$observacao', `status` = '$status' WHERE id = '".$id."' ";
 		$result = mysqli_query($con, $sql);
 		echo mysqli_error($con);
 		echo "ATUALIZADO COM SUCESSO!";
@@ -68,6 +69,7 @@ if(isset($acao)){
 
 		$certificados = $_POST['certificados'];
 		$vencimento = $_POST['vencimento'];
+		$senha = $_POST['senha'];
 		$cnpj = $_POST['cnpj'];
 		$email = $_POST['email'];
 		$telefone = $_POST['telefone'];
@@ -82,7 +84,7 @@ if(isset($acao)){
 
         move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$new_name);
 
-		$sql = "INSERT into `certificados` (`certificados`, `vencimento`, `cnpj`, `email`, `telefone`, `responsavel`, `observacao`, `status`, `arquivo`) VALUES ('$certificados', '$vencimento', '$cnpj', '$email', '$telefone', '$responsavel', '$observacao', '$status', '$new_name');";
+		$sql = "INSERT into `certificados` (`certificados`, `vencimento`, `senha`, `cnpj`, `email`, `telefone`, `responsavel`, `observacao`, `status`, `arquivo`) VALUES ('$certificados', '$vencimento', '$senha', '$cnpj', '$email', '$telefone', '$responsavel', '$observacao', '$status', '$new_name');";
 		$result = mysqli_query($con, $sql) or die ("executar insert".mysqli_error());	
 		ob_start();
 		echo $_SESSION['msg'] = "<div class='alert alert-success'>Cadastrado com sucesso!</div>";
