@@ -462,14 +462,14 @@ aria-labelledby="userDropdown">
                         </div>
                         <div class="card-body">
                             <?php
-                            $sql = "SELECT id, empresa, alteracao, descricao, doc, data_entrada, data_conclusao, protocolo, cnpj, status, situacao  FROM processos ";
+                            $sql = "SELECT processo_id, empresa, alteracao, descricao, doc, data_entrada, data_conclusao, protocolo, cnpj, status, situacao  FROM processos ";
                             $result = mysqli_query($con, $sql);
                             echo mysqli_error($con);
 
                             if(mysqli_num_rows($result)==0){
 
                             }else{
-                              while(list($id, $empresa, $alteracao, $descricao, $doc, $data_entrada, $data_conclusao, $protocolo, $cnpj, $status, $situacao ) = mysqli_fetch_array($result)){ 
+                              while(list($processo_id, $empresa, $alteracao, $descricao, $doc, $data_entrada, $data_conclusao, $protocolo, $cnpj, $status, $situacao ) = mysqli_fetch_array($result)){ 
 
                                 ?>
                                 <h4 class="small font-weight-bold"><?php echo $empresa; ?> <span

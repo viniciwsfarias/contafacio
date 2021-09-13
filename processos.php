@@ -54,7 +54,7 @@ $tipo = $_POST['tipo'];
             display: inline-block;
 
         }
-        .faixa button{
+        .faixa button, a{
            margin: 0px;
         }
         table, tbody, tr, th, td{
@@ -444,83 +444,40 @@ aria-labelledby="userDropdown">
         <!-- Content Row -->
     <div class="row">
          <!-- CARD -->
-        <div class="card text-center">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="#home" aria-selected="true" >Processos</a>
-                    </li>
-                </ul>
-            </div> 
-            <div class="card-body"> 
-                <div class="tab-content" id="myTabContent">
-                    <!-- inicio card alvara -->
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"> 
-                        <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search float-left" method="POST" action="alvara.php">
-                            <div class="input-group">
-                                <div class="input-group">
-                                    <label>Pesquisar por:</label>
-                                    <select class="selectpicker" data-style="btn-warning" name="tipo">
-                                        <option value="empresa">Empresas</option>
-                                        <option value="protocolo">Protocolo</option>
-                                        <option value="situacao">Situação</option>
-                                        <option value="alteracao">Alteração</option>
-                                        
-                                    </select>
-                                    <input type="text" name="pesquisar" id="pesquisar" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                    aria-label="Search" aria-describedby="basic-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="submit" name="Submit">
-                                            <i class="fas fa-search fa-sm"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <button type="button" class="btn btn-primary  float-right" id="btnNovo" data-toggle="modal" data-target="#cadModal">Novo</button>
+        
+        <button type="button" class="btn btn-primary  float-right" id="btnNovo" data-toggle="modal" data-target="#cadModal">Novo</button>
                         <!--<a href="novo_processo.php" class="btn btn-primary btn-sm float-right">Novo</a>-->
-                        <table class="table table-bordered table-responsive" width="100%">
-                            <thead class="table-dark">
-                                <tr>
-
-                                    <th scope="col" width="">Número</th>
-                                    <th scope="col" width="">Empresa</th>
-                                    <th scope="col" width="">Alteração</th>
-                                    <th scope="col" width="">Data Entrada</th>
-                                    <th scope="col" width="">Protocolo</th>
-                                    <th scope="col" width="270">Opções</th>
-                                </tr>
-                            </thead>
-                            <?php 
-                            $sql = "SELECT id, empresa, alteracao, descricao, doc, data_entrada, data_conclusao, protocolo, cnpj, status, situacao, info, responsavel  FROM processos WHERE $tipo LIKE '%$pesquisar%' LIMIT 5000";
+    </div><!--row -->
+    <div class="row">
+        <?php 
+                            $sql = "SELECT processo_id, empresa, alteracao, descricao, doc, data_entrada, data_conclusao, protocolo, cnpj, status, situacao, info, responsavel  FROM processos WHERE $tipo LIKE '%$pesquisar%' LIMIT 5000";
                             $result = mysqli_query($con, $sql);
                             echo mysqli_error($con);
 
                             if(mysqli_num_rows($result)==0){
 
                             }else{
-                              while(list($id, $empresa, $alteracao, $descricao, $doc, $data_entrada, $data_conclusao, $protocolo, $cnpj, $status, $situacao, $info, $responsavel ) = mysqli_fetch_array($result)){ 
+                              while(list($processo_id, $empresa, $alteracao, $descricao, $doc, $data_entrada, $data_conclusao, $protocolo, $cnpj, $status, $situacao, $info, $responsavel ) = mysqli_fetch_array($result)){ 
 
-                                ?> 
-
-
-                                <tbody>
-                                    <tr>
-                                        <td><?php echo $id; ?></td>
-                                        <td><?php echo $empresa; ?></td>
-                                        <td><?php echo $alteracao; ?></td>
-                                        <td><?php echo $data_entrada; ?></td>
-                                        <td><?php echo $protocolo; ?></td>
-                                        <td>
-                                            <div class="faixa">
-                                            <ul>
-                                                <li>
-                                                    <!--<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#detalheModal<?php echo $id; ?>">Detalhe</button>-->
-                                                    <a href="novo_processo.php?id=<?php echo $id; ?>" class="btn btn-success btn-sm float-right">Detalhe</a>
-                                                </li>
-                                                <li>
-                                                   <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" data-whatever="<?php echo $empresa; ?>"
-                                                       data-whateverid="<?php echo $id; ?>"  
+                                ?>
+        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2"><div class="h5 mb-0 font-weight-bold text-gray-800"> <?php echo $empresa; ?> </div>
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                <?php echo $alteracao; ?> </div>
+                                            
+                                        </div>
+                                        <div class="col-auto">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="novo_processo.php?id=<?php echo $processo_id; ?>" class="btn btn-success btn-sm float-right">Detalhe</a>
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" data-whatever="<?php echo $empresa; ?>"
+                                                       data-whateverid="<?php echo $processo_id; ?>"  
                                                        data-whateverempresa="<?php echo $empresa; ?>"  data-whateveralteracao="<?php echo $alteracao; ?>"
                                                        data-whateverdescricao="<?php echo $descricao; ?>"
                                                        data-whateverdoc="<?php echo $doc; ?>"
@@ -531,84 +488,14 @@ aria-labelledby="userDropdown">
                                                        data-whateversituacao="<?php echo $situacao; ?>"
                                                        data-whateverinfo="<?php echo $info; ?>"
                                                        data-whateverresponsavel="<?php echo $responsavel; ?>">Editar</button>
-                                                   </li>
-                                                   <li>
-                                                    <form class="form-horizontal" method="POST" action="cadastrar_processos.php?id=<?php echo $id; ?> ">
-                                                        <button type="submit" name="Submit" value="Excluir" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este registro?')">Excluir</button>
-                                                    </form>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <!-- Modal detalhe -->
-                                <div class="modal fade" id="detalheModal<?php echo $id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel"><?php echo $empresa; ?></h5>
-                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">×</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-
-
-                                              ID: <?php echo $id; ?>
-                                              <br>
-                                              Empresa: <?php echo $empresa; ?>
-                                              <br>
-                                              Alteração: <?php echo $alteracao; ?>
-                                              <br>
-                                              Descricao: <?php echo $descricao; ?>
-                                              <br>
-                                              Documentação: <?php echo $doc; ?>
-                                              <br>
-                                              Data de Entrada: <?php echo $data_entrada; ?>
-                                              <br>
-                                              Data de Conclusão: <?php echo $data_conclusao; ?>
-                                              <br>
-                                              Protocolo: <?php echo $protocolo; ?>
-                                              <br>
-                                              CNPJ: <?php echo $cnpj; ?>
-                                              <br>
-                                              Status: <?php echo $status; ?>
-                                              <br>
-                                              Situação: <?php echo $situacao; ?>
-                                              <br>
-                                              Informações adicionais: <?php echo $info; ?>
-                                              <br>
-                                              Responsável: <?php echo $responsavel; ?>
-                                              <br>
-
-
-                                          </div>
-                                          <div class="modal-footer">
-                                             <a class="btn btn-primary" href="doc_alvara.php?alvara_id=<?php echo $id; ?>" role="button">Domumentos</a>
-                                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Sair</button>
-                                         </div>
-                                        </div>
-                                    </div>
+                                                       <button type="submit" name="Submit" value="Excluir" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este registro?')">Excluir</button>
                                 </div>
-                             <?php 
-                                }
-                              } 
-                             ?>
-                            </tbody>
-                        </table>
+                            </div>
+                        </div>
                         
-                    </div> <!-- fim do card alvara -->
-        
-                
-                                             
-                            </tbody>
-                        </table>
-                    
-                </div><!-- myTabContent -->
-            </div><!-- fim card-body -->
-        </div><!-- fim do card -->
-    </div><!--row -->
+                        
+<?php }} ?>
+    </div>
 </div><!-- /.container-fluid -->
 
 

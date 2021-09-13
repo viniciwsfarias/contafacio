@@ -38,7 +38,7 @@ echo $acao;
 			$situacao = "";
 			$info = "";
 			$responsavel = "";
-			$id = "";
+			$processo_id = "";
 			}
 if(isset($acao)){
 	 if($acao== "Salvar"){
@@ -54,8 +54,8 @@ if(isset($acao)){
 		$situacao = $_POST['situacao'];
 		$info = $_POST['info'];
 		$responsavel = $_POST['responsavel'];
-		$id = $_POST['id'];
-		$sql = "Update `processos` SET `empresa` = '$empresa', `alteracao` = '$alteracao', `descricao` = '$descricao', `doc` = '$doc', `data_entrada` = '$data_entrada', `data_conclusao` = '$data_conclusao', `cnpj` = '$cnpj', `status` = '$status', `situacao` = '$situacao', `info` = '$info', `responsavel` = '$responsavel' WHERE id = '".$id."' ";
+		$processo_id = $_POST['processo_id'];
+		$sql = "Update `processos` SET `empresa` = '$empresa', `alteracao` = '$alteracao', `descricao` = '$descricao', `doc` = '$doc', `data_entrada` = '$data_entrada', `data_conclusao` = '$data_conclusao', `cnpj` = '$cnpj', `status` = '$status', `situacao` = '$situacao', `info` = '$info', `responsavel` = '$responsavel' WHERE processo_id = '".$processo_id."' ";
 		$result = mysqli_query($con, $sql);
 		echo mysqli_error($con);
 		echo "ATUALIZADO COM SUCESSO!";
@@ -85,7 +85,7 @@ if(isset($acao)){
 		header("Location: processos.php");
 			}else if($acao== "Excluir"){
 		$id = $_GET['id'];
-		$sql = "delete from `processos` WHERE id = '".$id."' ";
+		$sql = "delete from `processos` WHERE processo_id = '".$processo_id."' ";
 		$result = mysqli_query($con, $sql)  or die ("executar update".mysqli_error());
 		$acao = "Cadastrar";
 		ob_start();

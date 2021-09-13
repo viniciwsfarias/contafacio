@@ -115,7 +115,59 @@ if($tipo == 3){ //vigilancia
         echo "nao ok";
     }
 
-}
+}else
+if($tipo == 4){ //processos
+    echo "entrou processo";
+    if(isset($_POST['Submit'])){
+        $acao = $_POST['Submit'];
+
+    }else{
+
+    }
+    if($acao == "Cadastrar"){
+    echo "entrou processos";
+    $processo_id = $_GET['processo_id'];
+    echo "<br>".$processo_id."<br>";
+    $x = "?id=".$processo_id;
+    if(isset($_FILES['arquivo'])){
+        echo "ok";
+        $ext = strtolower(substr($_FILES['arquivo']['name'], -4));
+        $nome = $_POST['nome'];
+        $new_name = $nome.$ext;
+        $diretorio = "upload/";
+        $categoria = $_POST['categoria'];
+
+        move_uploaded_file($_FILES['arquivo']['tmp_name'], $diretorio.$new_name);
+
+        $sql ="INSERT INTO anexo_processo (`processo_id`, `nome`, `arquivo`, `doc_id`, `documento_id`) VALUES ('$processo_id', '$nome', '$new_name', '$doc_id', '$documento_id' ) ";
+        $result = mysqli_query($con, $sql);
+        echo mysqli_error($con);
+        if($result){
+            echo "deu certo";
+            ob_start();
+            header("Location: novo_processo.php".$x);
+
+        }else{
+            echo "nao deu certo";
+        }
+    }
+    else{
+        echo "nao ok";
+    }
+
+}else if($acao== "Excluir"){
+        $id = $_GET['id'];
+        $processo_id = $_GET['processo_id'];
+        $x = "?processo_id=".$processo_id;
+        $sql = "delete from `anexo_alvara` WHERE processo_id = '".$id."' ";
+        $result = mysqli_query($con, $sql)  or die ("executar update".mysqli_error());
+        $acao = "Cadastrar";
+        ob_start();
+        header("Location: doc_alvara.php".$x);
+    }
+
+}// end if tipo 4
+
 
 ?>
 

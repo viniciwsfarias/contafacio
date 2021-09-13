@@ -5,7 +5,7 @@ session_start();
 
 $id = $_GET['id'];
 
-$sql ="SELECT * FROM processos where id = '".$id."' ";
+$sql ="SELECT * FROM processos where processo_id = '".$id."' ";
 $result = mysqli_query($con, $sql);
     echo mysqli_error($con);
     $total = mysqli_num_rows($result);
@@ -14,6 +14,7 @@ if($total)
 {   
     $dados = @mysqli_fetch_array($result);
      
+    $processo_id = $dados["processo_id"]; 
     $empresa = $dados["empresa"];  
     $alteracao = $dados["alteracao"];
     $protocolo = $dados["protocolo"];
@@ -60,7 +61,7 @@ if(isset($_POST['pesquisar'])){
 
 <head>
 
-    <meta charset="utf-8">
+     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -68,11 +69,14 @@ if(isset($_POST['pesquisar'])){
 
     <title>Contafacio Contabilidade</title>
 
-   <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
     href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
     rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -89,6 +93,12 @@ if(isset($_POST['pesquisar'])){
 }
 #btnNovo{
     margin: 10px;
+}
+.content.active {
+  display:block;
+}
+.content {
+  display:none;
 }
 </style>
 </head>
@@ -469,8 +479,10 @@ aria-labelledby="userDropdown">
         ?>
     </div>
     <!-- Content Row -->
-    <?php
-    $sql = "SELECT * FROM processos WHERE id = '".$id."' ";
+    
+
+<?php
+    $sql = "SELECT * FROM processos WHERE processo_id = '".$id."' ";
     $result = mysqli_query($con, $sql);
     echo mysqli_error($con);
     $total = mysqli_num_rows($result);
@@ -528,313 +540,384 @@ aria-labelledby="userDropdown">
                     </div>
                 </div>
             </div>
+             <div class="row">
+                <div class="col-xl-6 col-lg-5 mb-4">
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                Anexar Documentos                               
+                                <button class="btn btn-primary float-right" type="button"data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" id="iconx">
+                                    <i class="fas fa-angle-down"></i>
+                                </button>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <form method="POST" action="cadAnexo.php?processo_id=<?php echo $processo_id; ?>&tipo=4" enctype="multipart/form-data">
+                                        <label>Nome:</label>
+                                        <input type="text" name="nome" placeholder="nome do arquivo"><br>
+                                        <label>Arquivo:</label>
+                                        <input type="file" name="arquivo"><br>
+        
+                                </div>
+                                <div class="modal-footer">
+                                   <input type="Submit" name="Submit" value="Cadastrar">
+                               </div>
+                           </form>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            
+            <div class="col-xl-6 col-lg-5 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        Documentos Anexados
+                    </div>
+                    <div class="card-body">
+                        
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Arquivo</th>
+                                    <th>Opçoes</th>
+                                </tr>
+                            </thead>
+                            <?php 
+                                $sql1 = "SELECT nome, arquivo FROM anexo_processo WHERE processo_id = '".$dados["processo_id"]."'  ";
+                                $result = mysqli_query($con, $sql1);
+                                echo mysqli_error($con);
+                                if(mysqli_num_rows($result)==0){
+                                    }else{
+                                        while(list($nome, $arquivo ) = mysqli_fetch_array($result)){ 
+                            ?>
+                            <tbody>
+                                <tr>
+                                    <td><?php echo $arquivo; ?></td>
+                                    <td>baixar</td> 
+                                </tr>
+                            </tbody>
+                        <?php }} ?>
+                        </table>
+                    </div>
+                </div>
+            </div>                
+        </div>  
+
+        <div class="row">
+            <div class="col-xl-6 col-lg-5 mb-4">
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                Informações Adicionais                               
+                                <button class="btn btn-primary float-right" type="button"data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseTwo" id="iconx">
+                                    
+                                </button>
+                            </div>
+                            <div id="collapseThree" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <?php echo $dados['info']; ?>
+                                </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
 
 
             <div class="row">
                 <div class="col-xl-12 col-lg-7">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Documentação</h6>
-                        </div>
-                        <div class="card-body">
-                            <form  class="form-horizontal" method="POST" action="cadastrar_docs.php?id=<?php echo $id; ?>">
-                              <div class="row">
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-                            <!-- Project Card Example -->
-                            <div class="card">
-                                <div class="card-header">
-                                    Junta Comercial
-                                </div>
-                                <div class="card-body">
-                                   <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="JC_adit" id="JC_adit" <?php $valor = $dados['JC_adit']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                               04 vias do aditivo/Requerimento Empresarial
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="JC_firma" id="JC_firma" <?php $valor = $dados['JC_firma']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                Reconhecer firma dos Sócios
-                                                </label>
-                                            </div> 
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="JC_capa" id="JC_capa" <?php $valor = $dados['JC_capa']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                04 vias da Capa(Rede Sim)
-                                                </label>
-                                            </div> 
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="JC_doc" id="JC_doc" <?php $valor = $dados['JC_doc']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?>>
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   Cópia dos Documentos                         
-                                               </label>
-                                            </div> 
-                                           <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="JC_taxas" id="JC_taxas" <?php $valor = $dados['JC_taxas']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   Taxas
-                                               </label>
-                                            </div> 
-                                </div>
+                    <div class="accordion" id="accordionExample">
+                        <div class="card shadow mb-4">
+                            <div class="card-header" id="headingOne">
+                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                  Documentação <i class="fas fa-angle-down"></i>
+                                </button>
                             </div>
-                        </div>
-                        <div class="col-lg-6 mb-4">
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Prefeitura</h6>
-                                </div>
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <div class="card-body">
-                                    <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="PREF_fac" id="PREF_fac" <?php $valor = $dados['PREF_fac']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                               FAC municipal
-                                                </label>
+                                    <form  class="form-horizontal" method="POST" action="cadastrar_docs.php?id=<?php echo $id; ?>">
+                                        <div class="row">
+                                            <div class="col-lg-6 mb-4">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        Junta Comercial
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="JC_adit" id="JC_adit" <?php $valor = $dados['JC_adit']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                           04 vias do aditivo/Requerimento Empresarial
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="JC_firma" id="JC_firma" <?php $valor = $dados['JC_firma']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                            Reconhecer firma dos Sócios
+                                                            </label>
+                                                        </div> 
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="JC_capa" id="JC_capa" <?php $valor = $dados['JC_capa']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                            04 vias da Capa(Rede Sim)
+                                                            </label>
+                                                        </div> 
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="JC_doc" id="JC_doc" <?php $valor = $dados['JC_doc']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?>>
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Cópia dos Documentos                         
+                                                           </label>
+                                                        </div> 
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="JC_taxas" id="JC_taxas" <?php $valor = $dados['JC_taxas']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Taxas
+                                                           </label>
+                                                        </div> 
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="PREF_alvara" id="PREF_alvara" <?php $valor = $dados['PREF_alvara']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                Alvará Original
-                                                </label>
-                                            </div> 
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="PREF_bomb" id="PREF_bomb" <?php $valor = $dados['PREF_bomb']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                Cópia do certificado dos Bombeiros
-                                                </label>
-                                            </div> 
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="PREF_doc" id="PREF_doc" <?php $valor = $dados['PREF_doc']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?>>
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   Cópia dos documentos                         
-                                               </label>
-                                            </div> 
-                                           <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="PREF_iptu" id="PREF_iptu" <?php $valor = $dados['PREF_iptu']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   Certidão do IPTU
-                                               </label>
+                                            <div class="col-lg-6 mb-4">                                              
+                                                <div class="card shadow mb-4">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-primary">Prefeitura</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PREF_fac" id="PREF_fac" <?php $valor = $dados['PREF_fac']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                           FAC municipal
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PREF_alvara" id="PREF_alvara" <?php $valor = $dados['PREF_alvara']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                            Alvará Original
+                                                            </label>
+                                                        </div> 
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PREF_bomb" id="PREF_bomb" <?php $valor = $dados['PREF_bomb']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                            Cópia do certificado dos Bombeiros
+                                                            </label>
+                                                        </div> 
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PREF_doc" id="PREF_doc" <?php $valor = $dados['PREF_doc']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?>>
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Cópia dos documentos                         
+                                                           </label>
+                                                        </div> 
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PREF_iptu" id="PREF_iptu" <?php $valor = $dados['PREF_iptu']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Certidão do IPTU
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PREF_doc_socio" id="PREF_doc_socio" <?php $valor = $dados['PREF_doc_socio']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Cópia do RG, CPF e comprovante de residência dos sócios
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PREF_crc" id="PREF_crc" <?php $valor = $dados['PREF_crc']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Cópia de certidão de regularidade do Contador
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PREF_crc_end" id="PREF_crc_end" <?php $valor = $dados['PREF_crc_end']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Cópia da carterinha CRC e comprovante de residência
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PREF_alvara_cont" id="PREF_alvara_cont" <?php $valor = $dados['PREF_alvara_cont']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Cópia do alvará do contador
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PREF_cont_cont" id="PREF_cont_cont" <?php $valor = $dados['PREF_cont_cont']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               E-mail e telefone do sócio e do contador
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PREF_taxas" id="PREF_taxas" <?php $valor = $dados['PREF_taxas']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Taxas
+                                                           </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="PREF_doc_socio" id="PREF_doc_socio" <?php $valor = $dados['PREF_doc_socio']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   Cópia do RG, CPF e comprovante de residência dos sócios
-                                               </label>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 mb-4">
+                                                <div class="card shadow mb-4">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-primary">Livro termo de ocorrência</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                      <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="true" name="LTO_livro" id="LTO_livro" <?php $valor = $dados['LTO_livro']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                        <label class="form-check-label" for="defaultCheck1">
+                                                           Autenticar livro termo de ocorrência
+                                                       </label>
+                                                      </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="PREF_crc" id="PREF_crc" <?php $valor = $dados['PREF_crc']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   Cópia de certidão de regularidade do Contador
-                                               </label>
+                                            <div class="col-lg-6 mb-4">
+                                                <div class="card shadow mb-4">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-primary">Bombeiros</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="BB_protocolo" id="BB_protocolo" <?php $valor = $dados['BB_protocolo']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Protocolo site dos Bombeiros
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="BB_certi" id="BB_certi" <?php $valor = $dados['BB_certi']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Certificado dos Bombeiros
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="BB_vistoria" id="BB_vistoria" <?php $valor = $dados['BB_vistoria']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Vistoria
+                                                           </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 mb-4">
+                                                <div class="card shadow mb-4">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-primary">Recebedoria de rendas</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="RR_reque" id="RR_reque" <?php $valor = $dados['RR_reque']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                           02 vias do requerimento
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="RR_fac" id="RR_fac" <?php $valor = $dados['RR_fac']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               FAC Estadual
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="RR_doc" id="RR_doc" <?php $valor = $dados['RR_doc']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Cópia autenticada dos documentos
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="RR_taxas" id="RR_taxas" <?php $valor = $dados['RR_taxas']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Taxas
+                                                           </label>
+                                                        </div> 
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="PREF_crc_end" id="PREF_crc_end" <?php $valor = $dados['PREF_crc_end']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   Cópia da carterinha CRC e comprovante de residência
-                                               </label>
+                                            <div class="col-lg-6 mb-4">
+                                                <div class="card shadow mb-4">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-primary">Receita</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="REC_dbe" id="REC_dbe" <?php $valor = $dados['REC_dbe']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               BDE
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="REC_proc_pf" id="REC_proc_pf" <?php $valor = $dados['REC_proc_pf']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Procuração PF dos sócios
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="REC_proc_pj" id="REC_proc_pj" <?php $valor = $dados['REC_proc_pj']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Procuração PJ
+                                                           </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="PREF_alvara_cont" id="PREF_alvara_cont" <?php $valor = $dados['PREF_alvara_cont']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   Cópia do alvará do contador
-                                               </label>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 mb-4">
+                                                <div class="card shadow mb-4">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-primary">Procuração RFB, ICP e Certificado Digital</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PROC_rfb" id="PROC_rfb" <?php $valor = $dados['PROC_rfb']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Procuração RFB PF e PJ
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PROC_icp" id="PROC_icp" <?php $valor = $dados['PROC_icp']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Procuração ICP
+                                                           </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="PROC_certi" id="PROC_certi" <?php $valor = $dados['PROC_certi']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Certificado Digital
+                                                           </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="PREF_cont_cont" id="PREF_cont_cont" <?php $valor = $dados['PREF_cont_cont']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   E-mail e telefone do sócio e do contador
-                                               </label>
+                                            <div class="col-lg-6 mb-4">
+                                                <div class="card shadow mb-4">
+                                                    <div class="card-header py-3">
+                                                        <h6 class="m-0 font-weight-bold text-primary">Sistema Domínio</h6>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="true" name="DOM_cad" id="DOM_cad" <?php $valor = $dados['DOM_cad']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
+                                                            <label class="form-check-label" for="defaultCheck1">
+                                                               Cadastrar, alterar ou inativar
+                                                           </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="PREF_taxas" id="PREF_taxas" <?php $valor = $dados['PREF_taxas']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   Taxas
-                                               </label>
-                                            </div>
+                                        </div>
+                                     <!-- fim form --> 
+                                </div><!-- fim card body -->   
+                                <div class="card-footer">
+                                    <button type="submit" name="Submit" value="Salvar" class="btn btn-primary btn-sm">Salvar</button>                  
+                                    </form>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Livro termo de ocorrência</h6>
-                                </div>
-                                <div class="card-body">
-                                      <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" name="LTO_livro" id="LTO_livro" <?php $valor = $dados['LTO_livro']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                        <label class="form-check-label" for="defaultCheck1">
-                                           Autenticar livro termo de ocorrência
-                                       </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-4">
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Bombeiros</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" name="BB_protocolo" id="BB_protocolo" <?php $valor = $dados['BB_protocolo']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                        <label class="form-check-label" for="defaultCheck1">
-                                           Protocolo site dos Bombeiros
-                                       </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" name="BB_certi" id="BB_certi" <?php $valor = $dados['BB_certi']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                        <label class="form-check-label" for="defaultCheck1">
-                                           Certificado dos Bombeiros
-                                       </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" name="BB_vistoria" id="BB_vistoria" <?php $valor = $dados['BB_vistoria']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                        <label class="form-check-label" for="defaultCheck1">
-                                           Vistoria
-                                       </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>  
-
-                        </div>
-                        <div class="row">
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Recebedoria de rendas</h6>
-                                </div>
-                                <div class="card-body">
-                                   <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="RR_reque" id="RR_reque" <?php $valor = $dados['RR_reque']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   02 vias do requerimento
-                                               </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="RR_fac" id="RR_fac" <?php $valor = $dados['RR_fac']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   FAC Estadual
-                                               </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="RR_doc" id="RR_doc" <?php $valor = $dados['RR_doc']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   Cópia autenticada dos documentos
-                                               </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="true" name="RR_taxas" id="RR_taxas" <?php $valor = $dados['RR_taxas']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                                <label class="form-check-label" for="defaultCheck1">
-                                                   Taxas
-                                               </label>
-                                            </div> 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-4">
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Receita</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" name="REC_dbe" id="REC_dbe" <?php $valor = $dados['REC_dbe']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                        <label class="form-check-label" for="defaultCheck1">
-                                           BDE
-                                       </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" name="REC_proc_pf" id="REC_proc_pf" <?php $valor = $dados['REC_proc_pf']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                        <label class="form-check-label" for="defaultCheck1">
-                                           Procuração PF dos sócios
-                                       </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" name="REC_proc_pj" id="REC_proc_pj" <?php $valor = $dados['REC_proc_pj']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                        <label class="form-check-label" for="defaultCheck1">
-                                           Procuração PJ
-                                       </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Procuração RFB, ICP e Certificado Digital</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" name="PROC_rfb" id="PROC_rfb" <?php $valor = $dados['PROC_rfb']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                        <label class="form-check-label" for="defaultCheck1">
-                                           Procuração RFB PF e PJ
-                                       </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" name="PROC_icp" id="PROC_icp" <?php $valor = $dados['PROC_icp']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                        <label class="form-check-label" for="defaultCheck1">
-                                           Procuração ICP
-                                       </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" name="PROC_certi" id="PROC_certi" <?php $valor = $dados['PROC_certi']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                        <label class="form-check-label" for="defaultCheck1">
-                                           Certificado Digital
-                                       </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-4">
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Sistema Domínio</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="true" name="DOM_cad" id="DOM_cad" <?php $valor = $dados['DOM_cad']; if ($valor == 1){ echo 'checked="true"'; } else{ } ?> >
-                                        <label class="form-check-label" for="defaultCheck1">
-                                           Cadastrar, alterar ou inativar
-                                       </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        <div class="card-footer">
-                            <button type="submit" name="Submit" value="Salvar" class="btn btn-primary btn-sm">Salvar</button>                  
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-            </div><!--row -->
-            <!-- Content Row -->
-                    
-
-
-           
+                            </div>    <!-- fim collapse one -->
+                        </div><!-- fim card -->
+                    </div><!-- fim collapse -->
+                </div><!-- fim -->
+            </div><!-- fim row -->
+        
 
 
 <?php }} ?> 
-
 
 
 <!---------------------------------------------------------------------------------->
@@ -1092,6 +1175,12 @@ aria-hidden="true">
       });
     });
   });
+</script>
+<script>
+   $('#iconx').click(function() {
+  $(this).find('i').toggleClass('fa-angle-down fa-angle-up');
+  $('.content').toggleClass('active');
+});
 </script>
 
 </body>

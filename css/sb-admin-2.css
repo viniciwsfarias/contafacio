@@ -11284,3 +11284,206 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+.s-case-expand {
+  opacity: 0;
+  display: none;
+  position: absolute;
+  overflow: scroll;
+}
+
+.primary {
+  height: 5000px;
+}
+
+//style css for page header
+.s-case-header {
+  font-size: 7em;
+  //black text
+  color: #333333;
+}
+
+//layout styles for page subheader
+.l-case-subheader {
+  margin: 0 auto;
+  max-width: 65%;
+  //gray text
+  color: #7c7c7c;
+}
+
+//layout styles for filter links container div
+.l-filter-container-div {
+  z-index: 3;
+}
+
+//layout styles for filter links
+.l-case-studies-filter-link {
+  //collapses down on window size down
+  display: inline-block;
+  margin: 1.5em;
+  width: 9em;
+  height: 2em;
+  margin-top: 3em;
+  padding-top: 2px;
+}
+
+//style css for filter links
+.s-case-studies-filter-link {
+  //white text
+  color: white;
+  //black background
+  background-color: #333333;
+  font-size: 1em;
+}
+
+.s-case-studies-filter-link-1 {
+  //colored border
+  border-top: .25em #2d76e5 solid;
+
+  &:hover, &.selected {
+    //background color matches border on hover
+    background-color: #2d76e5;
+    //force white text on hover
+    color: white;
+  }
+}
+
+.s-case-studies-filter-link-2 {
+  //colored border
+  border-top: .25em #3abbdc solid;
+
+  &:hover, &.selected {
+    //background color matches border on hover
+    background-color: #3abbdc;
+    //force white text on hover
+    color: white;
+  }
+}
+
+.s-case-studies-filter-link-3 {
+  //colored border
+  border-top: .25em #7480d4 solid;
+
+  &:hover, &.selected {
+    //background color matches border on hover
+    background-color: #7480d4;
+    //force white text on hover
+    color: white;
+  }
+}
+
+.s-case-studies-filter-link-4 {
+  //colored border
+  border-top: .25em #4bb9a0 solid;
+
+  &:hover, &.selected {
+    //background color matches border on hover
+    background-color: #4bb9a0;
+    //force white text on hover
+    color: white;
+  }
+}
+
+.s-case-studies-filter-link-5, .s-show-all {
+  //colored border
+  border-top: .25em #6ea5ac solid;
+
+  &:hover, &.selected {
+    //background color matches border on hover
+    background-color: #6ea5ac;
+    //force white text on hover
+    color: white;
+  }
+}
+
+//layout styles for case studies divs container
+.l-case-studies-list-container {
+  width: 90%;
+  max-width: 100%;
+  //centers container horizontally
+  margin: 1em auto;
+  padding: 1em;
+}
+
+//layout styles case study divs
+.l-studies-container-link {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  text-align: center;
+  position: relative;
+  width: 100%;
+}
+
+//style css for case study divs
+.s-studies-container-link {
+  color: white;
+  cursor: pointer;
+}
+
+.l-case-items {
+  overflow: visible;
+}
+
+//layout styles for case study div titles
+.l-case-title {
+  padding: .5em;
+  max-width: 65%;
+  margin: 0 auto;
+}
+
+//style css for case study div titles
+.s-case-titles {
+  font-size: 4em;
+}
+
+//layout styles for case study div excerpts
+.l-case-excerpt {
+  max-width: 65%;
+  margin: 0 auto;
+}
+
+//style css for case study div excerpts
+.s-case-excerpt {
+  font-size: 1.25em;
+}
+
+//layout styles for case study div buttons
+.l-view-case-button {
+  margin: 2em auto;
+  width: 200px;
+  height: 40px;
+  text-align: center;
+}
+
+//style css for case study div buttons
+.s-view-case-button {
+  border: 2px white solid;
+  font-size: 1em;
+  font-weight: lighter;
+  background-color: transparent;
+}
+
+//layout styles for case study div thumbnails
+.l-case-study-thumbnail {
+  margin: 0 auto;
+}
+
+//Apply different case study backgrounds
+.s-studies-container-link:first-child, .s-studies-container-link:nth-child(6) {
+background-color: #2562be;
+}
+
+.s-studies-container-link:nth-child(2), .s-studies-container-link:nth-child(7) {
+background-color: #3abbdc;
+}
+
+.s-studies-container-link:nth-child(3), .s-studies-container-link:nth-child(8) {
+background-color: #6c77c4;
+}
+
+.s-studies-container-link:nth-child(4), .s-studies-container-link:nth-child(9) {
+background-color: #4bb9a0;
+}
+
+.s-studies-container-link:nth-child(5), .s-studies-container-link:nth-child(10) {
+background-color: #69acbe;
+}
