@@ -124,7 +124,7 @@ if(isset($acao)){
 			$DOM_cad = 1;
 		}
 		$id = $_GET['id'];
-		$sql = "Update `processos` SET `JC_adit` = '$JC_adit', `JC_firma` = '$JC_firma', `JC_capa` = '$JC_capa', `JC_doc` = '$JC_doc', `JC_taxas` = '$JC_taxas', `LTO_livro` = '$LTO_livro', `RR_reque` = '$RR_reque', `RR_fac` = '$RR_reque', `RR_fac` = '$RR_fac', `RR_doc` = '$RR_doc', `RR_taxas` = '$RR_taxas', `PREF_fac` = '$PREF_fac', `PREF_alvara` = '$PREF_alvara', `PREF_bomb` = '$PREF_bomb', `PREF_doc` = '$PREF_doc', `PREF_iptu` = '$PREF_iptu', `PREF_doc_socio` = '$PREF_doc_socio', `PREF_crc` = '$PREF_crc', `PREF_crc_end` = '$PREF_crc_end', `PREF_alvara_cont` = '$PREF_alvara_cont', `PREF_cont_cont` = '$PREF_cont_cont', `PREF_taxas` = '$PREF_taxas', `BB_protocolo` = '$BB_protocolo', `BB_certi` = '$BB_certi', `BB_vistoria` = '$BB_vistoria', `REC_dbe` = '$REC_dbe', `REC_proc_pf` = '$REC_proc_pf', `REC_proc_pj` = '$REC_proc_pj', `PROC_rfb` = '$PROC_rfb', `PROC_icp` = '$PROC_icp', `PROC_certi` = '$PROC_certi', `DOM_cad` = '$DOM_cad' WHERE id = '".$id."' ";
+		$sql = "Update `processos` SET `JC_adit` = '$JC_adit', `JC_firma` = '$JC_firma', `JC_capa` = '$JC_capa', `JC_doc` = '$JC_doc', `JC_taxas` = '$JC_taxas', `LTO_livro` = '$LTO_livro', `RR_reque` = '$RR_reque', `RR_fac` = '$RR_reque', `RR_fac` = '$RR_fac', `RR_doc` = '$RR_doc', `RR_taxas` = '$RR_taxas', `PREF_fac` = '$PREF_fac', `PREF_alvara` = '$PREF_alvara', `PREF_bomb` = '$PREF_bomb', `PREF_doc` = '$PREF_doc', `PREF_iptu` = '$PREF_iptu', `PREF_doc_socio` = '$PREF_doc_socio', `PREF_crc` = '$PREF_crc', `PREF_crc_end` = '$PREF_crc_end', `PREF_alvara_cont` = '$PREF_alvara_cont', `PREF_cont_cont` = '$PREF_cont_cont', `PREF_taxas` = '$PREF_taxas', `BB_protocolo` = '$BB_protocolo', `BB_certi` = '$BB_certi', `BB_vistoria` = '$BB_vistoria', `REC_dbe` = '$REC_dbe', `REC_proc_pf` = '$REC_proc_pf', `REC_proc_pj` = '$REC_proc_pj', `PROC_rfb` = '$PROC_rfb', `PROC_icp` = '$PROC_icp', `PROC_certi` = '$PROC_certi', `DOM_cad` = '$DOM_cad' WHERE processo_id = '".$id."' ";
 		$result = mysqli_query($con, $sql);
 		echo mysqli_error($con);
 		echo "ATUALIZADO COM SUCESSO!";
@@ -154,7 +154,7 @@ if(isset($acao)){
 		header("Location: processos.php");
 			}else if($acao== "Excluir"){
 		$id = $_GET['id'];
-		$sql = "delete from `processos` WHERE id = '".$id."' ";
+		$sql = "delete from `processos` WHERE processo_id = '".$id."' ";
 		$result = mysqli_query($con, $sql)  or die ("executar update".mysqli_error());
 		$acao = "Cadastrar";
 		ob_start();

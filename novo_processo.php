@@ -636,7 +636,7 @@ aria-labelledby="userDropdown">
                             </div>
                             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <div class="card-body">
-                                    <form  class="form-horizontal" method="POST" action="cadastrar_docs.php?id=<?php echo $id; ?>">
+                                    <form  class="form-horizontal" method="POST" action="cadastrar_docs.php?id=<?php echo $processo_id; ?>">
                                         <div class="row">
                                             <div class="col-lg-6 mb-4">
                                                 <div class="card">

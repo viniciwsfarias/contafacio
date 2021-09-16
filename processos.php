@@ -230,11 +230,11 @@ $tipo = $_POST['tipo'];
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
+                    <form action="processa.php" 
                     class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
                         <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                        aria-label="Search" aria-describedby="basic-addon2">
+                        aria-label="Search" aria-describedby="basic-addon2"name="campo" id="campo">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button">
                                 <i class="fas fa-search fa-sm"></i>
@@ -443,59 +443,56 @@ aria-labelledby="userDropdown">
     </div>
         <!-- Content Row -->
     <div class="row">
-         <!-- CARD -->
-        
-        <button type="button" class="btn btn-primary  float-right" id="btnNovo" data-toggle="modal" data-target="#cadModal">Novo</button>
-                        <!--<a href="novo_processo.php" class="btn btn-primary btn-sm float-right">Novo</a>-->
+        <button type="button" class="btn btn-primary  float-right" id="btnNovo" data-toggle="modal" data-target="#cadModal">Novo</button>              
     </div><!--row -->
+    <div id="resultado">
     <div class="row">
         <?php 
-                            $sql = "SELECT processo_id, empresa, alteracao, descricao, doc, data_entrada, data_conclusao, protocolo, cnpj, status, situacao, info, responsavel  FROM processos WHERE $tipo LIKE '%$pesquisar%' LIMIT 5000";
-                            $result = mysqli_query($con, $sql);
-                            echo mysqli_error($con);
+            $sql = "SELECT processo_id, empresa, alteracao, descricao, doc, data_entrada, data_conclusao, protocolo, cnpj, status, situacao, info, responsavel  FROM processos WHERE $tipo LIKE '%$pesquisar%' LIMIT 5000";
+            $result = mysqli_query($con, $sql);
+            echo mysqli_error($con);
+            if(mysqli_num_rows($result)==0){
+                }else{
+                    while(list($processo_id, $empresa, $alteracao, $descricao, $doc, $data_entrada, $data_conclusao, $protocolo, $cnpj, $status, $situacao, $info, $responsavel ) = mysqli_fetch_array($result)){ 
 
-                            if(mysqli_num_rows($result)==0){
-
-                            }else{
-                              while(list($processo_id, $empresa, $alteracao, $descricao, $doc, $data_entrada, $data_conclusao, $protocolo, $cnpj, $status, $situacao, $info, $responsavel ) = mysqli_fetch_array($result)){ 
-
-                                ?>
-        <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2"><div class="h5 mb-0 font-weight-bold text-gray-800"> <?php echo $empresa; ?> </div>
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                <?php echo $alteracao; ?> </div>
-                                            
-                                        </div>
-                                        <div class="col-auto">
-                                            
-                                        </div>
-                                    </div>
+        ?>
+        
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"> <?php echo $empresa; ?> 
                                 </div>
-                                <div class="card-footer">
-                                    <a href="novo_processo.php?id=<?php echo $processo_id; ?>" class="btn btn-success btn-sm float-right">Detalhe</a>
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" data-whatever="<?php echo $empresa; ?>"
-                                                       data-whateverid="<?php echo $processo_id; ?>"  
-                                                       data-whateverempresa="<?php echo $empresa; ?>"  data-whateveralteracao="<?php echo $alteracao; ?>"
-                                                       data-whateverdescricao="<?php echo $descricao; ?>"
-                                                       data-whateverdoc="<?php echo $doc; ?>"
-                                                       data-whateverdata_entrada="<?php echo $data_entrada; ?>"
-                                                       data-whateverdata_conclusao="<?php echo $data_conclusao; ?>"data-whateverprotocolo="<?php echo $protocolo; ?>"
-                                                       data-whatevercnpj="<?php echo $cnpj; ?>"
-                                                       data-whateverstatus="<?php echo $status; ?>"
-                                                       data-whateversituacao="<?php echo $situacao; ?>"
-                                                       data-whateverinfo="<?php echo $info; ?>"
-                                                       data-whateverresponsavel="<?php echo $responsavel; ?>">Editar</button>
-                                                       <button type="submit" name="Submit" value="Excluir" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este registro?')">Excluir</button>
-                                </div>
-                            </div>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                <?php echo $alteracao; ?> 
+                                </div>                  
+                            </div>      
                         </div>
-                        
-                        
-<?php }} ?>
+                    </div>
+                    <div class="card-footer">
+                        <a href="novo_processo.php?id=<?php echo $processo_id; ?>" class="btn btn-success btn-sm float-right">Detalhe</a>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" data-whatever="<?php echo $empresa; ?>"
+                        data-whateverid="<?php echo $processo_id; ?>"  
+                        data-whateverempresa="<?php echo $empresa; ?>"  data-whateveralteracao="<?php echo $alteracao; ?>"
+                        data-whateverdescricao="<?php echo $descricao; ?>"
+                        data-whateverdoc="<?php echo $doc; ?>"
+                        data-whateverdata_entrada="<?php echo $data_entrada; ?>"
+                        data-whateverdata_conclusao="<?php echo $data_conclusao; ?>"data-whateverprotocolo="<?php echo $protocolo; ?>"
+                        data-whatevercnpj="<?php echo $cnpj; ?>"
+                        data-whateverstatus="<?php echo $status; ?>"
+                        data-whateversituacao="<?php echo $situacao; ?>"
+                        data-whateverinfo="<?php echo $info; ?>"
+                        data-whateverresponsavel="<?php echo $responsavel; ?>">Editar
+                        </button>
+                        <button type="submit" name="Submit" value="Excluir" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este registro?')">Excluir</button>
+                    </div>
+                </div>
+            </div>
+                    
+        <?php }} ?>
     </div>
+</div>
 </div><!-- /.container-fluid -->
 
 
@@ -795,6 +792,27 @@ aria-hidden="true">
       });
     });
   });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#campo').keyup(function(){
+            $('form').submit(function(){
+                var dados = $(this).serialize();
+                $.ajax({
+                    url: 'processa.php',
+                    method: 'post',
+                    dataType: 'html',
+                    data: dados,
+                    success: function(data){
+                        $('#resultado').empty().html(data);
+                    }
+                });
+                return false;
+            });
+            $('form').trigger('submit');
+        });
+    });
 </script>
 
 </body>
