@@ -20,8 +20,8 @@ function expirar($days){
 
 }
  if(isset($_POST['pesquisar'])){
-$pesquisar = $_POST['pesquisar'];
-$tipo = $_POST['tipo'];
+$pesquisar = "%".$_POST['pesquisar']."%";
+//$tipo = $_POST['tipo'];
 }else{
     $pesquisar = "";
     $tipo = "certificados";
@@ -511,7 +511,7 @@ aria-labelledby="userDropdown">
                             </thead>
                             <?php
                             $cert = filter_input(INPUT_POST, 'palavra', FILTER_SANITIZE_STRING);
-                            $sql = "SELECT id, certificados, cnpj, email, CAST(vencimento as date), senha, situacao, telefone, responsavel, observacao, status, arquivo  FROM certificados WHERE certificados LIKE '%$cert%' LIMIT 5000";
+                            $sql = "SELECT id, certificados, cnpj, email, CAST(vencimento as date), senha, situacao, telefone, responsavel, observacao, status, arquivo  FROM certificados WHERE certificados LIKE '%$cert%' ORDER BY certificados ASC";
                             $result = mysqli_query($con, $sql);
                             echo mysqli_error($con);
 
@@ -625,6 +625,7 @@ aria-labelledby="userDropdown">
 
                                           </div>
                                           <div class="modal-footer">
+                                            <a class="btn btn-primary" href="send_mail.php?id=<?php echo $id; ?>">Enviar Alerta</a>
                                              <button class="btn btn-secondary" type="button" data-dismiss="modal">Sair</button>
                                          </div>
                                         </div>
@@ -736,7 +737,7 @@ aria-labelledby="userDropdown">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+        <h4 class="modal-title" id="exampleModalLabel"></h4>
     </div>
     <div class="modal-body">
         <form  class="form-horizontal" method="POST" action="cadastrar_certificados.php" enctype="multipart/form-data">
@@ -890,6 +891,29 @@ aria-hidden="true">
       });
     });
   });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#campo').keyup(function(){
+            $('form').submit(function(){
+                var dados = $(this).val();
+                $.ajax({
+                    url: 'teste.php',
+                    method: 'post',
+                    dataType: 'html',
+                    data: dados,
+                    success: function(data){
+                        $('#resultado').html(data);
+                    },
+                    error: function(){
+                        $(".resultado").html("error");
+                    }
+                });
+                return false;
+            });
+            $('form').trigger('submit');
+        });
+    });
 </script>
 
 </body>
